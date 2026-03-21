@@ -19,3 +19,7 @@ dist/
 .DS_Store
 .vercel
 .railway
+
+# Internal planning docs
+Master_SPEC.md
+PM_Agent*
