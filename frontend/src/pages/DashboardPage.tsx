@@ -27,7 +27,7 @@ const MOCK_ACTIVITY = [
   { id: '4', type: 'success', description: 'New sync rule created: Jira → Linear', createdAt: new Date(Date.now() - 3 * 3600000).toISOString() },
 ]
 
-function Sidebar({ onClose }: { onClose?: () => void }) {
+export function Sidebar({ onClose }: { onClose?: () => void }) {
   const { user, logout } = useAuth()
   const navItems = [
     { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },

@@ -28,6 +28,24 @@ async def _get_token_or_401(db, user_id: str, platform: str) -> str:
     return token
 
 
+ALL_PLATFORMS = ["asana", "trello", "monday", "jira", "linear"]
+
+
+@router.get("")
+async def list_connected_platforms(
+    current_user: Annotated[dict, Depends(get_current_user)],
+    db: Annotated[AsyncIOMotorDatabase, Depends(get_database)],
+):
+    user_id = current_user["_id"]
+    result = []
+    for platform in ALL_PLATFORMS:
+        token_data = await get_token(db, user_id, platform)
+        connected = token_data is not None
+        workspace = (token_data.get("workspace_name") or token_data.get("workspace") or "") if connected else ""
+        result.append({"platform": platform, "connected": connected, "status": "connected" if connected else "disconnected", "workspace": workspace})
+    return result
+
+
 @router.get("/{platform}/projects")
 async def list_projects(
     platform: str,
